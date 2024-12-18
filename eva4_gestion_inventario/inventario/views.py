@@ -6,8 +6,8 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
-from .models import Categoria, Proveedor, Producto
-from .serializers import CategoriaSerializer, ProveedorSerializer, ProductoSerializer
+from .models import Categoria, Proveedor, Producto, Cliente, Pedido, PedidoProducto, Factura
+from .serializers import CategoriaSerializer, ProveedorSerializer, ProductoSerializer, ClienteSerializer, FacturaSerializer, PedidoSerializer, PedidoProductoSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 class CategoriaViewSet(ModelViewSet):
@@ -27,6 +27,23 @@ class ProtectedView(APIView):
 
     def get(self, request):
         return Response({"message": "¡Acceso autorizado! Solo usuarios autenticados pueden ver esto."})
+    
+class ClienteViewSet(ModelViewSet):
+    queryset = Cliente.objects.all()
+    serializer_class = ClienteSerializer
+
+class PedidoProductoViewSet(ModelViewSet):
+    queryset = PedidoProducto.objects.all()
+    serializer_class = PedidoProductoSerializer
+
+class PedidoViewSet(ModelViewSet):
+    queryset = Pedido.objects.all()
+    serializer_class = PedidoSerializer
+
+class FacturaViewSet(ModelViewSet):
+    queryset = Factura.objects.all()
+    serializer_class = FacturaSerializer
+
     
 @api_view(['POST'])
 @permission_classes([IsAdminUser])  # Solo administradores pueden registrar usuarios
