@@ -90,13 +90,12 @@ REST_FRAMEWORK = {
 # Obtén la URL de la base de datos desde las variables de entorno
 DATABASE_URL = os.getenv('DATABASE_URL')
 
-# Configuración de la base de datos para PostgreSQL
 if DATABASE_URL:
     parsed_db_url = urlparse(DATABASE_URL)
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': parsed_db_url.path[1:],  # Elimina el primer '/'
+            'NAME': parsed_db_url.path[1:],  
             'USER': parsed_db_url.username,
             'PASSWORD': parsed_db_url.password,
             'HOST': parsed_db_url.hostname,
@@ -104,7 +103,6 @@ if DATABASE_URL:
         }
     }
 else:
-    # Fallback a SQLite si no está configurado DATABASE_URL
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
