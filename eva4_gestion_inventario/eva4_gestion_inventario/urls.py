@@ -18,6 +18,10 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
+    #rutas admin
     path('admin/', admin.site.urls),
+    #rutas api
     path('api/', include('inventario.urls')),
+    #rutas templates html
+    path('', include('inventario.templates_urls')),
 ]

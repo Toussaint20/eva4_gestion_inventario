@@ -15,7 +15,7 @@ class Categoria(models.Model):
 class Proveedor(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100)
-    contacto = models.CharField(max_length=50, blank=True, null=True)
+    contacto = models.EmailField(unique=True, blank=True, null=True)
     direccion = models.TextField(blank=True, null=True)
 
     def __str__(self):
@@ -56,33 +56,13 @@ class PedidoProducto(models.Model):
 
     def __str__(self):
         return f"{self.cantidad} x {self.producto.nombre} en Pedido {self.pedido.id}"
-    
-class Factura(models.Model):
-    id = models.AutoField(primary_key=True)
-    pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE)
-    fecha_factura = models.DateTimeField(auto_now_add=True)
-    total = models.DecimalField(max_digits=10, decimal_places=2)
-    detalles = models.JSONField(default=dict)  # Almacena detalles adicionales como descuentos o impuestos
-    
-    def __str__(self):
-        return f"Factura {self.id} - Pedido {self.pedido.id}"
-
-    def save(self, *args, **kwargs):
-        # Cálculo de total basado en los productos del pedido
-        self.total = sum(
-            pedido_producto.producto.precio * pedido_producto.cantidad 
-            for pedido_producto in PedidoProducto.objects.filter(pedido=self.pedido)
-        )
-        super().save(*args, **kwargs)
-        
-        
+       
 class Cliente(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100)
     correo = models.EmailField(unique=True)
     telefono = models.CharField(max_length=15, blank=True, null=True)
     direccion = models.TextField(blank=True, null=True)
-    preferencias = models.JSONField(default=dict)  # Almacena preferencias como productos favoritos o historial de compras
 
     def __str__(self):
         return self.nombre
