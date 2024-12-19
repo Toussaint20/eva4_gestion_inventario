@@ -17,4 +17,4 @@ python -m venv entorno
 .env\scripts\activate
 
 4.- instalamos las librerías necesarias para el sistema:
-pip install django djangorestframework djangorestframework-simplejwt requests
+pip install django djangorestframework djangorestframework-simplejwt requests psycopg2 psycopg2-binary
